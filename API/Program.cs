@@ -20,6 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddCors();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -50,8 +51,6 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
 //}
 
 //app.UseHttpsRedirection();
-
-// app.UseAuthorization(); // Not needed for now, as we are not using authentication/authorization
 
 app.UseAuthentication();
 app.UseAuthorization();

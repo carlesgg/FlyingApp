@@ -20,7 +20,7 @@ export class Nav {
   {
     this.accountService.login(this.creds).subscribe({
       next: () => {
-        this.router.navigateByUrl('/members');
+        this.router.navigateByUrl('/flying');
         this.toast.success('Logged in successfully');
         this.creds = {};
       },
