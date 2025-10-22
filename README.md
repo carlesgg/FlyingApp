@@ -47,7 +47,7 @@ To follow this architecture I've divided the data handling as:
 
 ## 📁 Project Structure
 
-// Add Component Architecture Diagram Image (save as jpg)
+![Image](https://github.com/user-attachments/assets/21757140-91b3-4b2d-ba40-24e1b0f132cf)
 
 | Path | Description |
 |------|--------------|
