@@ -1,6 +1,6 @@
 # ✈️ Vueling Exam ✈️
 
-Here we have a Domain-Driven Design (DDD) project built in C# .NET 8, using EntityFramework Core and SQLServer, containerized with Docker. 
+Here we have a Domain-Driven Design (DDD) project built in C# .NET 8, using EntityFramework Core, SQLServer and Redis, containerized with Docker. 
 
 The project demonstrates clean architecture, SOLID principles, domain modeling, and separation of concerns for scalable backend systems.
 
@@ -8,13 +8,13 @@ The project demonstrates clean architecture, SOLID principles, domain modeling, 
 
 - Gather data from an External Service. ✅
 - Store the data in a SQL Server. ✅
+- Store the data temporaly in memory using Redis for better performance. ✅
 - Implement a Layered solution to return/modify the data on specific endpoints. ✅
-- Implement Unit testing for XXXXXXXXXXXXXXXXXX
+- Implement Unit testing for Infrastructure, Proxies, Domain and Application layers.✅
 - Implement Integration testing for the API. ✅
-- Include REDIS into the project for faster queries. ✅
 - Implemented a Health-Check Controller to ease the use of Docker containers. ✅
-- Handle Exceptions and Logging ✅
-- Implemented API Validators ✅
+- Implement a Exception Handle middleware. ✅
+- Implemented API Validators with FluentValidation ✅
 
 ### Possible future upgrades
 
@@ -27,8 +27,6 @@ Due to the limited timeframe given to design and develop this project, there are
 This project is structured according to Domain-Driven Design (DDD) principles.
 The goal is to isolate business logic from infrastructure concerns, allowing the domain to evolve independently of frameworks and databases. 
 
-// Add Component Architecture Diagram Image (save as jpg)
-
 | Layer               | Responsibility                                                               |
 | ------------------- | ---------------------------------------------------------------------------- |
 | **API**          | REST endpoints that expose the application to clients. |
@@ -37,38 +35,52 @@ The goal is to isolate business logic from infrastructure concerns, allowing the
 | **Infrastructure**  | Database access, repositories, and proxies. |
 | **Cross Cutting**  | A transversal layer with helper methods and utils. |
 
+
+To follow this architecture I've divided the data handling as:
+- **Datamodels** for the Infrastructure layer
+- **Domain Entities** for the Domain and Application layers
+- **Dtos** for the API layer
+
+
+
+
+
 ## 📁 Project Structure
+
+// Add Component Architecture Diagram Image (save as jpg)
 
 | Path | Description |
 |------|--------------|
-| `VuelingExam.Api/` | 🌐 API controllers, Validators and startup configuration |
+| `VExam.Api/` | 🌐 API controllers, Validators and startup configuration |
 | **Application** | 📁 Solution Folder |
-| `VuelingExam.Application.Services/` | ⚙️ Application services |
-| `VuelingExam.Application.Dtos/` | ⚙️ Request/Response DTOs |
-| `VuelingExam.Application.Mappers/` | ⚙️ Application Mappers |
+| `VExam.Application.Services/` | ⚙️ Application services |
+| `VExam.Application.Dtos/` | ⚙️ Request/Response DTOs |
+| `VExam.Application.Mappers/` | ⚙️ Mappers |
 | **Domain** | 📁 Solution Folder |
-| `VuelingExam.Domain.Entities/` | 🧠 Domain Entities |
-| `VuelingExam.Domain.Contracts/` | 🧠 Domain Interfaces |
-| `VuelingExam.Domain.RepositoryContracts/` | 🧠 Infrastructure repository interfaces |
-| `VuelingExam.Domain.Services/` | 🧠 Domain Services, core domain logic |
+| `VExam.Domain.Entities/` | 🧠 Domain Entities |
+| `VExam.Domain.Contracts/` | 🧠 Domain Interfaces |
+| `VExam.Domain.RepositoryContracts/` | 🧠 Infrastructure repository interfaces |
+| `VExam.Domain.Services/` | 🧠 Domain Services, core domain logic |
 | **Infrastructure** | 📁 Solution Folder |
-| `VuelingExam.Infrastructure.Context/` | 🗄️ EF Core context, repositories, configurations |
-| `VuelingExam.Infrastructure.Datamodels/` | 🗄️ EF Core context, repositories, configurations |
-| `VuelingExam.Infrastructure.Bases/` | 🗄️ EF Core context, repositories, configurations |
-| `VuelingExam.Infrastructure.Repositories/` | 🗄️ EF Core context, repositories, configurations |
-| `VuelingExam.Infrastructure.Proxies/` | 🗄️ EF Core context, repositories, configurations |
+| `VExam.Infrastructure.Context/` | 🗄️ EF Core context and CodeFirst Configurations |
+| `VExam.Infrastructure.Datamodels/` | 🗄️ Datamodels |
+| `VExam.Infrastructure.Bases/` | 🗄️ Base classes to use in Infrastructure |
+| `VExam.Infrastructure.Repositories/` | 🗄️ Repositories and Dependency Injection |
+| `VExam.Infrastructure.Proxies/` | 🗄️ External Services implementation |
 | **CrossCutting** | 📁 Solution Folder|
-| `VuelingExam.CrossCutting/` | 🗄️ EF Core context, repositories, configurations |
+| `VExam.CrossCutting/` | ⚔️ EF Core context, repositories, configurations |
 | **Testing** | 📁 Solution Folder|
-| `VuelingExam.Infrastrucutre.Repositories.Unit.Tests/` | 🗄️ EF Core context, repositories, configurations |
-| `VuelingExam.Infrastrucutre.Repositories.Integration.Tests/` | 🗄️ EF Core context, repositories, configurations |
-| `VuelingExam.Infrastrucutre.Repositories.Unit.Tests/` | 🗄️ EF Core context, repositories, configurations |
-| `VuelingExam.Infrastrucutre.Repositories.Unit.Tests/` | 🗄️ EF Core context, repositories, configurations |
+| `VExam.Infrastrucutre.Repositories.Unit.Tests/` | 🧪 Repositories Unit Testing |
+| `VExam.Infrastrucutre.Repositories.Integration.Tests/` | 🧪 Repositories Integration Testing |
+| `VExam.Infrastrucutre.Proxies.Integration.Tests/` | 🧪 Proxies Integration Testing |
+| `VExam.DomainUnit.Tests/` | 🧪 Domain Unit Testing |
+| `VExam.Application.Unit.Tests/` | 🧪 Application Unit Testing |
+| `VExam.Infrastrucutre.Api.Integration.Tests/` | 🧪 Api Integration Testing |
 | **Other Files** |  |
-| `VuelingExam.sln` | 🧩 Solution file |
+| `VExam.sln` | 🧩 Solution file |
 | `docker-compose.yml` | 🐳 Docker configuration |
 | `README.md` | 📝 Project documentation |
-| `Postman Collection` | 📝 Postman Collection |
+| `Postman Collection` | 🔍 Postman Collection |
 
 
 # Stack
@@ -80,6 +92,7 @@ The goal is to isolate business logic from infrastructure concerns, allowing the
 | **Database**         | SQL Server (Docker container) |
 | **InMemory Database**| Redis (Docker container) |
 | **Containerization** | Docker & Docker Compose       |
+| **Logging**          | Serilog      |
 | **Testing**          | MSTest and NSubstitute      |
 
 
@@ -93,7 +106,7 @@ We must have
 **[Docker Desktop](https://www.docker.com/)** installed and running to use the application easily. We will also need **[.NET SDK 8.0+](https://dotnet.microsoft.com/download)**.
 
 
-## 2️⃣ Run with Docker
+## 2️⃣ Run services with Docker
 🧱 Build and Start
 ```
 docker compose up --build
@@ -101,29 +114,57 @@ docker compose up --build
 
 **This command will:**
 
-- _Start the .NET API service_
-
 - _Start a SQL Server container_
 
-- _Apply EF Core migrations automatically_
+- _Start a Redis container_
 
 **🔍 Check Running Containers**
 ```
 docker ps
 ```
-**🧭 API Base URL**
+
+You should see SQL and Redis running, you can check that the connection has been made after running the Application on the HealthCheck Controller UI endpoint.
+___
+
+**Run the application on Https** _(If you prefer to start the application inside Doker, you must change the ConnectionString!)_
+
+## 🔥API Reference
+**🧭 Application Health Check UI Endpoint**
 
 Once running:
 ```
-http://localhost:5000
+http://localhost:7115/health-ui
 ```
 
-## 📚 References
 
-- [Domain-Driven Design – Eric Evans](https://www.domainlanguage.com/ddd/)
-- [Implementing DDD – Vaughn Vernon](https://dddcommunity.org/)
-- [Microsoft Docs – EF Core](https://learn.microsoft.com/en-us/ef/core/)
-- [Clean Architecture – Robert C. Martin](https://blog.cleancoder.com/)
+#### Get all items
+
+```http
+  GET /api/items
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
+
+#### Get item
+
+```http
+  GET /api/items/${id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to fetch |
+
+#### add(num1, num2)
+
+Takes two numbers and returns the sum.
+
+
+
+
+
 
 ## 🧩 Design & Architectural Patterns Used
 
@@ -267,7 +308,7 @@ Custom middleware or filters handle exceptions globally.
 
 ### 🧾 Logging Pattern
 Centralized logging ensures that every operation, exception, and database interaction is traceable.  
-Commonly implemented using **Microsoft.Extensions.Logging** or **Serilog**.
+Using  **Serilog**.
 
 **Benefits:**
 - Simplifies debugging and auditing.  
@@ -282,7 +323,7 @@ The project follows **SOLID** principles to maintain clean architecture and high
 
 | Principle | Description |
 |------------|--------------|
-| **S – Single Responsibility Principle** | Each class has only one reason to change. |
+| **S – Single Responsibility Principle** | Each class has only one responsibility |
 | **O – Open/Closed Principle** | Classes are open for extension but closed for modification. |
 | **L – Liskov Substitution Principle** | Subclasses can replace their base classes without altering correctness. |
 | **I – Interface Segregation Principle** | Interfaces are small and specific, avoiding unnecessary dependencies. |
@@ -290,41 +331,18 @@ The project follows **SOLID** principles to maintain clean architecture and high
 
 ---
 
+## 📚 References
 
-## 🔥API Reference
-
-#### Get all items
-
-```http
-  GET /api/items
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
-
-#### Get item
-
-```http
-  GET /api/items/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
-
-#### add(num1, num2)
-
-Takes two numbers and returns the sum.
+- [Domain-Driven Design – Eric Evans](https://www.domainlanguage.com/ddd/)
+- [Implementing DDD – Vaughn Vernon](https://dddcommunity.org/)
+- [Microsoft Docs – EF Core](https://learn.microsoft.com/en-us/ef/core/)
+- [Clean Architecture – Robert C. Martin](https://blog.cleancoder.com/)
+- [Clean Code Book - Robert C. Martin](https://www.amazon.es/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+- [Redis Docs](https://redis.io/docs/latest/)
 
 
-## Running Tests
 
-To run tests, run the following command
 
-```bash
-  npm run test
-```
 
 ### ✅ Summary
 
